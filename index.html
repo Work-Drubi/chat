@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <link
+    rel="stylesheet"
+    href="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/themes/df-messenger-default.css"
+  />
+  <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
+  <df-messenger
+    project-id="chatobot-dialogflow"
+    agent-id="1de84d28-4cbe-477f-aaac-9352973ae576"
+    language-code="es"
+    max-query-length="-1"
+  >
+    <df-messenger-chat-bubble chat-title="Innova Chat">
+    </df-messenger-chat-bubble>
+  </df-messenger>
+
+  <style>
+    df-messenger {
+      z-index: 999;
+      position: fixed;
+      --df-messenger-font-color: #000;
+      --df-messenger-font-family: Google Sans;
+      --df-messenger-chat-background: #f3f6fc;
+      --df-messenger-message-user-background: #d3e3fd;
+      --df-messenger-message-bot-background: #fff;
+      --df-messenger-chat-window-width: 600px;
+      bottom: 16px;
+      right: 16px;
+    }
+  </style>
+  <script>
+    window.addEventListener("df-chat-open-changed", function (event) {
+      console.log(event);
+      const isOpen = event.detail.isOpen;
+
+      if (isOpen) {
+        console.log("Chat is open");
+        const dfMessenger = document.querySelector("df-messenger");
+        const sessionId = sessionStorage.getItem("df-messenger-messages");
+        if (!sessionId) {
+          dfMessenger.renderCustomText(
+            "Hola, bienvenido a Gob.sv, te ayudaré en todo lo que necesites relacionado a tus trámites, servicios e inquietudes sobre el Gobierno de El Salvador. 🤖✨",
+            true
+          );
+          dfMessenger.renderCustomText(
+            "Por favor, selecciona una de estas opciones para continuar: Simple Sv, Identidad Digital o Instituciones.",
+            true
+          );
+          dfMessenger.sendRequest('query', 'Hola');
+        }
+      }
+    });
+  </script>
+
+  <body></body>
+</html>
