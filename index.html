@@ -37,11 +37,9 @@
   </style>
   <script>
     window.addEventListener("df-chat-open-changed", function (event) {
-      console.log(event);
       const isOpen = event.detail.isOpen;
 
       if (isOpen) {
-        console.log("Chat is open");
         const dfMessenger = document.querySelector("df-messenger");
         const sessionId = sessionStorage.getItem("df-messenger-messages");
         if (!sessionId) {
