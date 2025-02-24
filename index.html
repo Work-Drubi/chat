@@ -20,6 +20,10 @@
   >
     <df-messenger-chat-bubble
       chat-title="Innova Chat"
+      expanded="true"
+      bot-actor-image="https://www.diariooficial.gob.sv/dist/img/Escudo.png"
+      chat-title-icon="https://www.diariooficial.gob.sv/dist/img/Escudo.png"
+      chat-subtitle="Chatbot de Gob.sv"
     ></df-messenger-chat-bubble>
   </df-messenger>
 
@@ -27,29 +31,68 @@
     df-messenger {
       z-index: 999;
       position: fixed;
+      bottom: 10px;
+      right: 20px;
       --df-messenger-font-color: #000;
       --df-messenger-font-family: Google Sans;
       --df-messenger-chat-background: #f3f6fc;
       --df-messenger-message-user-background: #d3e3fd;
       --df-messenger-message-bot-background: #fff;
-      --df-messenger-chat-window-width: 600px;
-      bottom: 16px;
-      right: 16px;
+      --df-messenger-chat-window-width: 500px;
+      --df-messenger-font-family: "Google Sans", sans-serif;
+      --df-messenger-chat-window-height: 600px;
+      --df-messenger-chat-window-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.16);
+      --df-messenger-chat-border-radius: 8px;
+      --df-messenger-chat-border: 1px solid #dfe3e8;
+      --df-messenger-chat-padding: 10px;
+
+      /* Diseño de bot y usuario*/
+      --df-messenger-chat-background: white;
+      --df-messenger-message-font-weight: 400;
+      --df-messenger-message-border-radius: 12px;
+
+      --df-messenger-message-bot-background: #f2f4f8;
+      --df-messenger-message-user-background: #394dfa;
+
+      --df-messenger-message-user-font-color: white;
+
+      /* Barra de titulo */
+      --df-messenger-titlebar-background: #f2f4f8;
+      --df-messenger-titlebar-background: #f2f4f8;
+      --df-messenger-titlebar-letter-spacing: 0.5px;
+      --df-messenger-titlebar-title-font-size: 16px;
+      --df-messenger-titlebar-title-font-weight: 400;
+
+      /* // modifica los chips */
+      --df-messenger-chips-background: white;
+      --df-messenger-chips-border-radius: 15px;
+      --df-messenger-chips-font-color: #304ffe;
+      --df-messenger-chips-border-color: #304ffe;
+      --df-messenger-chips-font-size: 14px;
+      --df-messenger-chips-font-weight: 400;
+      --df-messenger-chips-text-wrap: nowrap;
+      --df-messenger-chips-content-align: center;
+      --df-messenger-chips-padding: 6px 40px;
+      --df-messenger-chips-font-weight: 400;
     }
   </style>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      const sessionId = sessionStorage.getItem("df-messenger-messages");
+
       const dfMessenger = document.querySelector("df-messenger");
       let warningTimeout, closeTimeout; // Variables para los temporizadores
 
       // Función para reiniciar los temporizadores
-      function resetTimers() {
+      const resetTimers = () => {
         clearTimeout(warningTimeout);
         clearTimeout(closeTimeout);
 
         // Configura el temporizador de advertencia
         warningTimeout = setTimeout(() => {
+          console.log("Advertencia de cierre de sesión");
+
           dfMessenger.renderCustomText(
             "Su sesión está a punto de finalizar. Si necesita más asistencia, no dude en volver a contactarnos. ¡Gracias por su tiempo! 🤖✨",
             true
@@ -63,7 +106,7 @@
             );
 
             // Limpieza de la sesión y cierre del chat
-        
+
             const dfMessengerBubble = document.querySelector(
               "df-messenger-chat-bubble"
             );
@@ -72,17 +115,17 @@
             dfMessenger.clearAuthentication();
             dfMessenger.startNewSession({ retainHistory: true });
             sessionStorage.removeItem("df-messenger-sessionID");
-          }, 60000);  // Muestra la advertencia tras 1 minuto de inactividad
+          }, 60000); // Muestra la advertencia tras 1 minuto de inactividad
         }, 60000); // Muestra la advertencia tras 1 minuto de inactividad
-      }
-
+      };
+      if (sessionId) resetTimers(); // Reinicia los temporizadores si hay una sesión activa
       // Evento para manejar la apertura del chat
       window.addEventListener("df-chat-open-changed", (event) => {
         if (event.detail.isOpen) {
+          console.log("Chat abierto");
           const sessionId = sessionStorage.getItem("df-messenger-messages");
-          
+
           if (!sessionId) {
-            console.log("Chat abierto");
             dfMessenger.renderCustomText(
               "Hola, bienvenido a Gob.sv. Estoy aquí para ayudarte con trámites, servicios e inquietudes sobre el Gobierno de El Salvador. 🤖✨",
               true
@@ -93,14 +136,32 @@
             );
             dfMessenger.sendRequest("query", "Hola");
 
-            sessionStorage.setItem("df-messenger-messages", "true"); // Evita reenvío
+            // const payload = [
+            //   {
+            //     type: "chips",
+            //     options: [
+            //       {
+            //         text: "Simple Sv",
+            //         payload: "Simple Sv",
+            //       },
+            //       {
+            //         text: "Identidad Digital",
+            //         payload: "Identidad Digital",
+            //       },
+            //       {
+            //         text: "Instituciones",
+            //         payload: "Instituciones",
+            //       },
+            //     ],
+            //   },
+            // ];
+            // dfMessenger.renderCustomCard(payload);
           }
         }
       });
 
       // Evento para reiniciar temporizadores cuando se recibe una respuesta
       window.addEventListener("df-response-received", (event) => {
-
         resetTimers(); // Reinicia los temporizadores con cada mensaje recibido
       });
     });
