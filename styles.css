@@ -1,0 +1,47 @@
+df-messenger {
+  z-index: 999;
+  position: fixed;
+  bottom: 10px;
+  right: 20px;
+  --df-messenger-font-color: #000;
+  --df-messenger-font-family: Google Sans;
+  --df-messenger-chat-background: #f3f6fc;
+  --df-messenger-message-user-background: #d3e3fd;
+  --df-messenger-message-bot-background: #fff;
+  --df-messenger-chat-window-width: 620px;
+  --df-messenger-font-family: "Google Sans", sans-serif;
+  --df-messenger-chat-window-height: 700px;
+  --df-messenger-chat-window-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.16);
+  --df-messenger-chat-border-radius: 8px;
+  --df-messenger-chat-border: 1px solid #dfe3e8;
+  --df-messenger-chat-padding: 10px;
+
+  /* Diseño de bot y usuario */
+  --df-messenger-message-font-weight: 400;
+  --df-messenger-message-border-radius: 10px;
+  --df-messenger-message-bot-background: white;
+  --df-messenger-message-user-background: #394dfa;
+  --df-messenger-message-user-font-color: white;
+
+  /* Barra de titulo */
+  --df-messenger-titlebar-letter-spacing: 0.5px;
+  --df-messenger-titlebar-title-font-size: 16px;
+  --df-messenger-titlebar-title-font-weight: 400;
+
+  /* Modifica los chips */
+  --df-messenger-chips-background: white;
+  --df-messenger-chips-border-radius: 15px;
+  --df-messenger-chips-font-color: #304ffe;
+  --df-messenger-chips-border-color: #304ffe;
+  --df-messenger-chips-font-size: 14px;
+  --df-messenger-chips-font-weight: 400;
+  --df-messenger-chips-text-wrap: nowrap;
+  --df-messenger-chips-content-align: flex-center;
+  /* --df-messenger-chips-padding: 6px 0; */
+  --df-messenger-chips-font-weight: 400;
+
+  /* Estilos Listas */
+  --df-messenger-list-padding: 10px 0;
+  --df-messenger-list-spacing: 5px;
+  --df-messenger-list-inset: 15px;
+}
